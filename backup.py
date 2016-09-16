@@ -15,6 +15,8 @@ MAIL_TO = os.environ.get("MAIL_TO")
 MAIL_FROM = os.environ.get("MAIL_FROM")
 WEBHOOK = os.environ.get("WEBHOOK")
 WEBHOOK_METHOD = os.environ.get("WEBHOOK_METHOD") or "GET"
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 
 dt = datetime.now()
 file_name = DB_NAME + "_" + dt.strftime("%Y-%m-%d")
@@ -69,12 +71,16 @@ def log(msg):
 
 def main():
     start_time = datetime.now()
-    log("Dumping database")
-    take_backup()
-    log("Uploading to S3")
-    upload_backup()
-    log("Pruning local backup copies")
-    prune_local_backup_files()
+    
+    if AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY:
+        log("Dumping database")
+        take_backup()
+        log("Uploading to S3")
+        upload_backup()
+        log("Pruning local backup copies")
+        prune_local_backup_files()
+    else:
+        log("AWS access keys missing")
     
     if MAIL_TO and MAIL_FROM:
         log("Sending mail to %s" % MAIL_TO)
