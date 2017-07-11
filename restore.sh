@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eo pipefail
 
 if [ ! -n "${LAST_BACKUP}" ]; then
   # Find last backup file
