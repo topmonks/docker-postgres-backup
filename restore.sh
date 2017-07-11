@@ -7,7 +7,7 @@ if [ ! -n "${LAST_BACKUP}" ]; then
 fi
 
 # Download backup from S3
-aws s3 --region $AWS_DEFAULT_REGION cp "$S3_PATH/$LAST_BACKUP" $LAST_BACKUP || (echo "Failed to download backup from S3"; exit)
+aws s3 --region $AWS_DEFAULT_REGION cp $S3_PATH/$LAST_BACKUP $LAST_BACKUP || (echo "Failed to download backup from S3"; exit)
 
 # Restore backup
 
