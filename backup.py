@@ -47,7 +47,7 @@ def take_backup():
     #    sys.exit(1)
     
     # trigger postgres-backup
-    cmd("env PGPASSWORD=\"%s\" pg_dump -Fc -h %s -U %s %s > %s" % (DB_PASS, DB_HOST, DB_USER, DB_NAME, backup_file))
+    cmd("env PGPASSWORD=%s pg_dump -Fc -h %s -U %s %s > %s" % (DB_PASS, DB_HOST, DB_USER, DB_NAME, backup_file))
 
 def upload_backup():
     cmd("aws s3 cp %s %s" % (backup_file, S3_PATH))
