@@ -1,0 +1,8 @@
+sudo: false
+dist: trusty
+script:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker build -t docker-postgres-backup .
+  - docker tag docker-postgres-backup "topmonkscom/docker-postgres-backup:build-$TRAVIS_BUILD_NUMBER"
+  - docker tag docker-postgres-backup topmonkscom/docker-postgres-backup:latest
+  - docker push topmonkscom/docker-postgres-backup
