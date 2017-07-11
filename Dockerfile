@@ -1,5 +1,4 @@
-FROM heyman/postgresql
-MAINTAINER Jonatan Heyman <http://heyman.info>
+FROM postgres:9.6
 
 RUN apt-get update && apt-get install -y \
     python \
