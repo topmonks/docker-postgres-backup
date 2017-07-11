@@ -1,5 +1,7 @@
 sudo: false
 dist: trusty
+services:
+  - docker
 script:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker build -t docker-postgres-backup .
