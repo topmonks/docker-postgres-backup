@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eo pipefail
 
-if [ ! -n "${LAST_BACKUP}" ]; then
+if [ ! -n "$LAST_BACKUP" ]; then
   # Find last backup file
   : ${LAST_BACKUP:=$(aws s3 --region $AWS_DEFAULT_REGION ls $S3_PATH | awk -F " " '{print $4}' | grep ^$DB_NAME | sort -r | head -n1)}
 fi
