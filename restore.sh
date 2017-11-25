@@ -1,5 +1,4 @@
 #!/bin/bash
-set -eo pipefail
 
 : ${LAST_BACKUP:=$(aws s3 --region "$AWS_DEFAULT_REGION" ls "$S3_PATH/" | awk -F " " '{print $4}' | grep ^$DB_NAME | sort -r | head -n1)}
 
