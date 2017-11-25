@@ -5,11 +5,16 @@ if [ -z "$CRON_SCHEDULE" ]; then
     echo 'WARNING: $CRON_SCHEDULE not set!'
 fi
 
+script=backup
+if [ ! -z "$RESTORE" ]; then
+  script=restore
+fi
+
 # Write cron schedule
 echo "#!/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-$CRON_SCHEDULE root . /backup/backup.sh >> /backup.log 2>&1
+$CRON_SCHEDULE root . /backup/$script.sh >> /$script.log 2>&1
 " > /etc/cron.d/postgresql-backup
 
 # Env variables that can be imported from backup script, 
