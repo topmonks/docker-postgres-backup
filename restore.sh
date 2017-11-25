@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# When in CRON set ENV variables
+if [ -e /env.sh ]; then
+  . /env.sh
+fi
+
+# Find last backup if not set
 : ${LAST_BACKUP:=$(aws s3 --region "$AWS_DEFAULT_REGION" ls "$S3_PATH/" | awk -F " " '{print $4}' | grep ^$DB_NAME | sort -r | head -n1)}
 
 # Download backup from S3
