@@ -45,9 +45,9 @@ def take_backup():
     #if backup_exists():
     #    sys.stderr.write("Backup file already exists!\n")
     #    sys.exit(1)
-    
+
     # trigger postgres-backup
-    cmd("env PGPASSWORD=%s pg_dump -Fc -h %s -U %s %s > %s" % (DB_PASS, DB_HOST, DB_USER, DB_NAME, backup_file))
+    cmd("env \"PGPASSWORD=%s\" pg_dump -Fc -h %s -U %s %s > %s" % (DB_PASS, DB_HOST, DB_USER, DB_NAME, backup_file))
 
 def upload_backup():
     cmd("aws s3 cp %s %s" % (backup_file, S3_PATH))
@@ -71,7 +71,7 @@ def log(msg):
 
 def main():
     start_time = datetime.now()
-    
+
     if AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY:
         log("Dumping database")
         take_backup()
@@ -81,7 +81,7 @@ def main():
         prune_local_backup_files()
     else:
         log("AWS access keys missing")
-    
+
     if MAIL_TO and MAIL_FROM:
         log("Sending mail to %s" % MAIL_TO)
         send_email(
@@ -90,11 +90,11 @@ def main():
             "Backup complete: %s" % DB_NAME,
             "Took %.2f seconds" % (datetime.now() - start_time).total_seconds(),
         )
-    
+
     if WEBHOOK:
         log("Making HTTP %s request to webhook: %s" % (WEBHOOK_METHOD, WEBHOOK))
         cmd("curl -X %s %s" % (WEBHOOK_METHOD, WEBHOOK))
-    
+
     log("Backup complete, took %.2f seconds" % (datetime.now() - start_time).total_seconds())
 
 

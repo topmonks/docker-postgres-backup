@@ -1,4 +1,4 @@
-FROM postgres:9.6
+FROM postgres:10.4
 
 RUN apt-get update && apt-get install -y \
     cron gnupg python-pip

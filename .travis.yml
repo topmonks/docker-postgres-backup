@@ -1,5 +1,8 @@
 sudo: false
 dist: trusty
+branches:
+  only:
+  - master
 services:
   - docker
 script:
