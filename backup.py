@@ -6,6 +6,7 @@ import sys
 from datetime import datetime
 
 BACKUP_DIR = os.environ["BACKUP_DIR"]
+BACKUP_FILE_NAME = os.environ["BACKUP_FILE_NAME"]
 S3_PATH = os.environ["S3_PATH"]
 DB_NAME = os.environ["DB_NAME"]
 DB_PASS = os.environ["DB_PASS"]
@@ -20,6 +21,10 @@ AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 
 dt = datetime.now()
 file_name = DB_NAME + "_" + dt.strftime("%Y-%m-%d")
+
+if BACKUP_FILE_NAME:
+    file_name = BACKUP_FILE_NAME  
+    
 backup_file = os.path.join(BACKUP_DIR, file_name)
 
 if not S3_PATH.endswith("/"):
