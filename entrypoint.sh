@@ -46,6 +46,7 @@ $CRON_SCHEDULE root . /backup/$script.sh >> /$script.log 2>&1
 echo "#!/bin/bash
 
 export \"BACKUP_DIR=$BACKUP_DIR\"
+export \"BACKUP_FILE_NAME=$BACKUP_FILE_NAME\"
 export \"S3_PATH=$S3_PATH\"
 export \"DB_NAME=$DB_NAME\"
 export \"DB_PASS=$DB_PASS\"
