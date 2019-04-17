@@ -25,3 +25,4 @@ Optional environment variables
 * :code:`WEBHOOK`: If specified, an HTTP request will be sent to this URL
 * :code:`WEBHOOK_METHOD`: By default the webhook's HTTP method is GET, but can be changed using this variable
 * :code:`RESTORE`: When set it will CRON schedule automatic restore of database from S3
+* :code:`MAX_BACKUP_AGE`: Max backup age of locally kept backups in days. Older backups are deleted at the end of the script
