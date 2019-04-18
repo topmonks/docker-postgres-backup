@@ -17,6 +17,7 @@ WEBHOOK = os.environ.get("WEBHOOK")
 WEBHOOK_METHOD = os.environ.get("WEBHOOK_METHOD") or "GET"
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+MAX_BACKUP_AGE = os.environ.get("MAX_BACKUP_AGE") or "7"
 
 dt = datetime.now()
 file_name = DB_NAME + "_" + dt.strftime("%Y-%m-%d")
@@ -45,7 +46,7 @@ def take_backup():
     #if backup_exists():
     #    sys.stderr.write("Backup file already exists!\n")
     #    sys.exit(1)
-    
+
     # trigger postgres-backup
     cmd("env PGPASSWORD=%s pg_dump -Fc -h %s -U %s %s > %s" % (DB_PASS, DB_HOST, DB_USER, DB_NAME, backup_file))
 
@@ -53,7 +54,7 @@ def upload_backup():
     cmd("aws s3 cp %s %s" % (backup_file, S3_PATH))
 
 def prune_local_backup_files():
-    cmd("find %s -type f -prune -mtime +7 -exec rm -f {} \;" % BACKUP_DIR)
+    cmd("find %s -type f -prune -mtime +%s -exec rm -f {} \;" % (BACKUP_DIR, MAX_BACKUP_AGE))
 
 def send_email(to_address, from_address, subject, body):
     """
